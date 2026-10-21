@@ -28,17 +28,13 @@ text += '\r\n}' * open_braces(text) + '\r\n'
 if open_braces(text) != 0:
     sys.exit('unbalanced braces after repair')
 
-common = [
-    # Visible proof that SETTINGS.cfg is used instead of DUMMYS.DAT.
-    ('\t-- ShowFPS = "Advanced Maximum",', '\tShowFPS = "Advanced Maximum", -- wrc10mp: load marker'),
-]
 # LAN mode (RakNet broadcast search, used over Tailscale) or the built-in Steam
 # mode (Steam lobbies + Steam P2P), selected in RakNetNetworkManager at
 # 0x140f8c610: UseLanNetwork wins, else KtOS if UseKtOS and UseKtOSMultiplayer
 # (default true), else Steam.
 variants = {
-    'SETTINGS.cfg': common + [('\tUseLanNetwork = false,', '\tUseLanNetwork = true, -- wrc10mp')],
-    'SETTINGS_steam.cfg': common + [('\tUseKtOS = true,\r\n}', '\tUseKtOS = true,\r\n\tUseKtOSMultiplayer = false, -- wrc10mp\r\n}')],
+    'SETTINGS.cfg': [('\tUseLanNetwork = false,', '\tUseLanNetwork = true, -- wrc10mp')],
+    'SETTINGS_steam.cfg': [('\tUseKtOS = true,\r\n}', '\tUseKtOS = true,\r\n\tUseKtOSMultiplayer = false, -- wrc10mp\r\n}')],
 }
 outdir = root / 'settings'
 outdir.mkdir(exist_ok=True)

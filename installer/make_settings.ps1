@@ -26,11 +26,10 @@ function Get-OpenBraces([string] $lua) {
 $text += "`r`n}" * (Get-OpenBraces $text) + "`r`n"
 if ((Get-OpenBraces $text) -ne 0) { throw 'unbalanced braces after repair' }
 
-$overrides = @(, @("`t-- ShowFPS = `"Advanced Maximum`",", "`tShowFPS = `"Advanced Maximum`", -- wrc10mp: load marker"))
 if ($Mode -eq 'lan') {
-    $overrides += , @("`tUseLanNetwork = false,", "`tUseLanNetwork = true, -- wrc10mp")
+    $overrides = , @("`tUseLanNetwork = false,", "`tUseLanNetwork = true, -- wrc10mp")
 } else {
-    $overrides += , @("`tUseKtOS = true,`r`n}", "`tUseKtOS = true,`r`n`tUseKtOSMultiplayer = false, -- wrc10mp`r`n}")
+    $overrides = , @("`tUseKtOS = true,`r`n}", "`tUseKtOS = true,`r`n`tUseKtOSMultiplayer = false, -- wrc10mp`r`n}")
 }
 foreach ($o in $overrides) {
     $count = ([regex]::Matches($text, [regex]::Escape($o[0]))).Count

@@ -3,7 +3,7 @@
 ; exactly these files plus the mod's logs; no original game file is touched.
 ; Build: ISCC installer\wrc10mp.iss  ->  dist\wrc10mp-setup-<version>.exe
 
-#define AppVersion "1.0.0"
+#define AppVersion "1.0.1"
 #define GameDirName "WRC 10 FIA World Rally Championship"
 
 [Setup]
