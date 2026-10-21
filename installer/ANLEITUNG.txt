@@ -1,0 +1,53 @@
+wrc10mp - Multiplayer fuer WRC 10 (Steam) ohne Kylotonn-Server
+===============================================================
+
+Alle Spieler muessen denselben Modus installiert haben.
+Modus oder Rolle wechseln: Setup einfach erneut ausfuehren.
+Deinstallieren: Windows-Einstellungen > Apps > "wrc10mp" > Deinstallieren.
+Das stellt den Originalzustand des Spiels wieder her.
+
+
+STEAM-MODUS (empfohlen)
+-----------------------
+Kein Tailscale, keine Portfreigabe noetig.
+
+Host:
+  1. WRC 10 starten, Online-Mehrspieler oeffnen, (private) Lobby erstellen.
+  2. Freunde ueber das Steam-Overlay (Umschalt+Tab) einladen.
+     Einen Einladen-Knopf im Spiel gibt es nicht.
+
+Mitspieler:
+  - Einladung im Steam-Overlay annehmen oder in der Steam-Freundesliste
+    beim Host "Spiel beitreten" waehlen.
+
+Hinweis: Die Mod verhindert, dass das Steam-Overlay das Spiel dauerhaft
+pausiert. Dadurch pausiert das Spiel bei Fokusverlust auch im
+Einzelspieler nicht mehr automatisch.
+
+
+TAILSCALE-MODUS
+---------------
+Alle installieren Tailscale (https://tailscale.com) und treten demselben
+Tailnet bei.
+
+Host:
+  - Beim Setup die Host-IP leer lassen.
+  - WRC 10 starten und eine Lobby erstellen.
+  - Eingehendes UDP fuer WRC10.exe in der Windows-Firewall erlauben
+    (Windows fragt meist beim ersten Mal).
+  - Seine Tailscale-IP (100.x.y.z) den anderen mitteilen.
+
+Mitspieler:
+  - Beim Setup die Tailscale-IP des Hosts eingeben.
+  - WRC 10 starten, "Lobby suchen", bei den Lobby-Einstellungen alles
+    auf "Alle" lassen, "Bestaetigen".
+
+
+PROBLEME
+--------
+Die Mod schreibt Logs in den Spielordner:
+  wrc10mp_net.log    Lobby-Suche und Verbindungen (Tailscale-Modus)
+  wrc10mp_pause.log  Zwangspause durch das Steam-Overlay
+  wrc10mp_crash.log  Absturzinfos (+ wrc10mp_crash.dmp)
+Dazu das Spiel-Log WRC10.log. Diese Dateien beim Melden eines Fehlers
+mitschicken.
