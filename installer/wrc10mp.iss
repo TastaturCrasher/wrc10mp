@@ -3,7 +3,7 @@
 ; exactly these files plus the mod's logs; no original game file is touched.
 ; Build: ISCC installer\wrc10mp.iss  ->  dist\wrc10mp-setup-<version>.exe
 
-#define AppVersion "1.0.1"
+#define AppVersion "1.0.2"
 #define GameDirName "WRC 10 FIA World Rally Championship"
 
 [Setup]
@@ -274,6 +274,25 @@ begin
     'clear_forced_pause=1' + #13#10;
 end;
 
+{ Setup 1.0.0 enabled ShowFPS = "Advanced Maximum" as a load marker; the game copies
+  it into the player's UserSettings.cfg and keeps loading it from there. }
+procedure RemoveFpsMarker();
+var
+  FileName: String;
+  Raw: AnsiString;
+  Text: String;
+  Count: Integer;
+begin
+  FileName := ExpandConstant('{userdocs}\My Games\WRC10\UserSettings.cfg');
+  if not LoadStringFromFile(FileName, Raw) then
+    Exit;
+  Text := String(Raw);
+  Count := StringChangeEx(Text, 'Engine.ShowFPS = "Advanced Maximum";' + #13#10, '', True) +
+    StringChangeEx(Text, 'Engine.ShowFPS = "Advanced Maximum";' + #10, '', True);
+  if (Count > 0) and not SaveStringToFile(FileName, AnsiString(Text), False) then
+    MsgBox('Die FPS-Anzeige konnte in ' + FileName + ' nicht abgeschaltet werden.', mbError, MB_OK);
+end;
+
 procedure CurStepChanged(CurStep: TSetupStep);
 var
   SettingsDir: String;
@@ -292,6 +311,7 @@ begin
       MsgBox('SETTINGS.cfg konnte nicht nach ' + SettingsDir + ' kopiert werden.', mbError, MB_OK);
     if not SaveStringToFile(ExpandConstant('{app}\wrc10mp.ini'), IniText(), False) then
       MsgBox('wrc10mp.ini konnte nicht geschrieben werden.', mbError, MB_OK);
+    RemoveFpsMarker();
   end;
 end;
 
